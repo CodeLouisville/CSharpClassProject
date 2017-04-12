@@ -20,9 +20,9 @@ II.  Wire-up ASP.NET MVC (Model-View-Controller)
 	    4. Replace the body with the following HTML...
 	 
 	       <body>
-               <div>This is the header from the layout view.</div>
-               <div>@RenderBody()</div>
-               <footer>This is the footer from the layout view.</footer>
+              <h1>Lunch!</h1>
+              <div>@RenderBody()</div>
+              <footer>Lunch &copy; @DateTime.Now.Year Hungry Developers</footer>
            </body>
 	 	  
 	 G. Add a Razor ViewStart file.
@@ -42,7 +42,7 @@ II.  Wire-up ASP.NET MVC (Model-View-Controller)
 	    4. For Controller name, use HomeController.
 	    5. Click Add. Note that this not only added a HomeController.cs file, but it also added a Home folder in the
 	       Views folder. Also, the HomeController class has a method called Index() that returns an ActionResult. The
-	 	  return statement returns the result of the controller's View() method.
+	 	   return statement returns the result of the controller's View() method.
 	 I. Add a Home/Index view.
 	    1. Right-click the Views/Home folder and select Add -> View...
 	    2. For View name, enter Index.

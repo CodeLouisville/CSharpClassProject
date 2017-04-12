@@ -49,11 +49,11 @@ II.  Wire-up ASP.NET MVC (Model-View-Controller)
 	       The body tag includes the server code @RenderBody() where the content of any child views will render.
 	    4. Replace the body with the following HTML...
 	 
-	       `<body>
+	       <body>
                <div>This is the header from the layout view.</div>
                <div>@RenderBody()</div>
                <footer>This is the footer from the layout view.</footer>
-           </body>`
+           </body>
 	 	  
 	 G. Add a Razor ViewStart file.
 	    1. Right-click the Views folder and select Add -> View...

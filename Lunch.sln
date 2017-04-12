@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lunch", "Lunch\Lunch.csproj", "{FF926AD2-7C40-4D3D-B107-D027DFD5B7BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2BA1C860-3408-4AB4-9B57-E0D96545484B}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		README.txt = README.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF926AD2-7C40-4D3D-B107-D027DFD5B7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF926AD2-7C40-4D3D-B107-D027DFD5B7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF926AD2-7C40-4D3D-B107-D027DFD5B7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF926AD2-7C40-4D3D-B107-D027DFD5B7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

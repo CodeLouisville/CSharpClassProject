@@ -21,10 +21,10 @@ III. Implement Responsive Design, Views, and Models
 
 		   <script src="https://code.jquery.com/jquery-3.2.1.min.js" 
 		      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" 
-			  crossorigin="anonymous"></script>
+              crossorigin="anonymous"></script>
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
 		      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
-			  crossorigin="anonymous"></script>
+              crossorigin="anonymous"></script>
 
 		4. Add a div with the .container class around your body content to implement Bootstrap's grid system.
 
@@ -32,7 +32,7 @@ III. Implement Responsive Design, Views, and Models
               <h1>Lunch!</h1>
               <div>@RenderBody()</div>
               <footer>Lunch &copy; @DateTime.Now.Year Hungry Developers</footer>
-           </div>
+		   </div>
 
      B. Create a view model that will be used to represent the Person view.
 	    1. Right-click the Models folder and select Add -> Class...

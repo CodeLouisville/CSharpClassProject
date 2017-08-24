@@ -1,8 +1,6 @@
-#Week 2
+# Week 3
 
-In week 3, we should be working in the Week3 branch. We start with the basic ASP.NET MVC Web Application created
-weeks 1 and 2. Following these instructions, we will modify the application to have a main menu, use the Bootstrap
-responsive design framework, and impelement a main menu.
+In week 3, we should be working in the Week3 branch. We start with the basic ASP.NET MVC Web Application created weeks 1 and 2. Following these instructions, we will modify the application to have a main menu, use the Bootstrap responsive design framework, and impelement a main menu.
 
 III. Implement Responsive Design, Views, and Models
 

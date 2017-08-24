@@ -1,8 +1,6 @@
-#Week 2
+# Week 2
 
-In week 2, we should be working in the Week2 branch. We start with the empty ASP.NET Web Application created in
-week 1. Following these instructions, we will modify the application to use ASP.NET MVC and configure a single
-Home/Index view and layout view.
+In week 2, we should be working in the Week2 branch. We start with the empty ASP.NET Web Application created in week 1. Following these instructions, we will modify the application to use ASP.NET MVC and configure a single Home/Index view and layout view.
 
 II.  Wire-up ASP.NET MVC (Model-View-Controller)
    	 
@@ -15,14 +13,13 @@ II.  Wire-up ASP.NET MVC (Model-View-Controller)
 	 F. Add a layout view.
 	    1. Right-click the Views/Shared folder and select Add -> MVC 5 Layout Page (Razor).
 	    2. For Item name, use _Layout.
-	    3. Click OK. Note that the newly created _Layout.cshtml page includes the html, head, and body tags.
-	       The body tag includes the server code @RenderBody() where the content of any child views will render.
+	    3. Click OK. Note that the newly created _Layout.cshtml page includes the html, head, and body tags. The body tag includes the server code @RenderBody() where the content of any child views will render.
 	    4. Replace the body with the following HTML...
 	 
 	       <body>
-               <div>This is the header from the layout view.</div>
-               <div>@RenderBody()</div>
-               <footer>This is the footer from the layout view.</footer>
+              <h1>Lunch!</h1>
+              <div>@RenderBody()</div>
+              <footer>Lunch &copy; @DateTime.Now.Year Hungry Developers</footer>
            </body>
 	 	  
 	 G. Add a Razor ViewStart file.
@@ -40,15 +37,12 @@ II.  Wire-up ASP.NET MVC (Model-View-Controller)
 	    2. From the Add Scaffold dialog, select "MVC 5 Controller - Empty".
 	    3. Click Add.
 	    4. For Controller name, use HomeController.
-	    5. Click Add. Note that this not only added a HomeController.cs file, but it also added a Home folder in the
-	       Views folder. Also, the HomeController class has a method called Index() that returns an ActionResult. The
-	 	  return statement returns the result of the controller's View() method.
+	    5. Click Add. Note that this not only added a HomeController.cs file, but it also added a Home folder in the Views folder. Also, the HomeController class has a method called Index() that returns an ActionResult. The return statement returns the result of the controller's View() method.
 	 I. Add a Home/Index view.
 	    1. Right-click the Views/Home folder and select Add -> View...
 	    2. For View name, enter Index.
 	    3. Check the "Use a layout page" box, but don't enter anything in the box.
-	    4. Click Add. Note that the view does not contain html, head, or body tags, but does contain an h2 heading tag
-	       that is semantically incorrect unless it appears inside a body tag. This will come from the layout view.
+	    4. Click Add. Note that the view does not contain html, head, or body tags, but does contain an h2 heading tag that is semantically incorrect unless it appears inside a body tag. This will come from the layout view.
 	 J. Configure MVC routing.
 	    1. Add a folder to the Lunch project named App_Start.
 	    2. Right-click the App_Start folder and select Add -> Class...
@@ -122,8 +116,7 @@ II.  Wire-up ASP.NET MVC (Model-View-Controller)
              
            </configuration>
 	 
-	 L. The application can be launched in the browser and the Home/Index view will be loaded, including the content
-	    from the layout view.
+	 L. The application can be launched in the browser and the Home/Index view will be loaded, including the content from the layout view.
 	 M. The following concepts can be introduced:
 	    1. The Model-View-Controller pattern
 	    2. The concept of convention-over-configuration

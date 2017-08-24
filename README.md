@@ -19,3 +19,5 @@ be found in the next week's branch. The master branch represents the completed p
 
 As stated in Week-1.md, in the first week you will create a new web application. There is no Week1 branch
 because you are starting from scratch.
+
+Now, go check out Week-1.md!

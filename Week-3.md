@@ -11,7 +11,7 @@ III. Implement Responsive Design, Views, and Models
 		   cascading stylesheet from a content delivery network (CDN). At the time of this tutorial, version 3.x is
 		   the latest non-alpha version of Bootstrap.
 
-		   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
 				rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
 				crossorigin="anonymous">
 

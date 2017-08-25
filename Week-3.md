@@ -78,16 +78,16 @@ III. Implement Responsive Design, Views, and Models
 	   named PersonList. However, by naming it Index, we are wiring it up as the default route under Person/.
 
 		1. Right-click the Views/Person folder and select Add -> View...
-	    2. For View name, enter Index.
-	    3. Check the "Use a layout page" box, but don't enter anything in the input below it. By leaving this box
+		2. For View name, enter Index.
+		3. Check the "Use a layout page" box, but don't enter anything in the input below it. By leaving this box
 		   blank, the default _Layout view will be used. Click Add.
 		4. Wire up the new view to use the PersonListViewModel class as its model. To do this, add the following
 		   line to the top of the view:
 
 			@model Lunch.Models.PersonListViewModel
 
-		5. Change `ViewBag.Title = "Index"` to `ViewBag.Title = "People"`.
-		6. Change `<h2>Index</h2>` to `<h2>People</h2>`.
+		5. Change ViewBag.Title = "Index" to ViewBag.Title = "People".
+		6. Change <h2>Index</h2> to <h2>People</h2>.
 
 	F. Hard-code some people to display in the Person/Index view, and send the list to the view.
 

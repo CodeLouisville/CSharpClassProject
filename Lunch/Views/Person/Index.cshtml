@@ -1,0 +1,25 @@
+﻿@model Lunch.Models.PersonListViewModel
+
+@{
+    ViewBag.Title = "People";
+}
+
+<h2>People</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.People.Count; i++)
+        {
+            <tr>
+                <td>@Model.People[i].FullName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+Total People: @Model.TotalPeople

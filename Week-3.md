@@ -11,17 +11,17 @@ III. Implement Responsive Design, Views, and Models
 		   cascading stylesheet from a content delivery network (CDN). At the time of this tutorial, version 3.x is
 		   the latest non-alpha version of Bootstrap.
 
-		   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
 				rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
 				crossorigin="anonymous">
 
 		3. Add the following two script tags to the bottom of your body tag. Bootstrap 3.x depends on version
 		   1.9.0 or higher of jQuery, so that JavaScript library must be loaded first.
 
-		   <script src="https://code.jquery.com/jquery-3.2.1.min.js" 
+			<script src="https://code.jquery.com/jquery-3.2.1.min.js" 
 				integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" 
 				crossorigin="anonymous"></script>
-           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
 				integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
 				crossorigin="anonymous"></script>
 
@@ -35,7 +35,7 @@ III. Implement Responsive Design, Views, and Models
 
     B. Create a view model that will be used to represent a person.
 
-	    1. Right-click the Models folder and select Add -> Class...
+		1. Right-click the Models folder and select Add -> Class...
 		2. Name the new class PersonViewModel and replace its contents with the following code:
 
 			namespace Lunch.Models
@@ -51,8 +51,8 @@ III. Implement Responsive Design, Views, and Models
 
 	C. Create another view model that will be used to represent the person list.
 
-	   1. Right-click the Models folder and select Add -> Class...
-	   2. Name the new class PersonListViewModel and replace its contents with the following code:
+		1. Right-click the Models folder and select Add -> Class...
+		2. Name the new class PersonListViewModel and replace its contents with the following code:
 
 			using System.Collections.Generic;
 

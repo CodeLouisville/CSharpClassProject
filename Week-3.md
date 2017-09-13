@@ -137,5 +137,48 @@ III. Implement Responsive Design, Views, and Models
 
 			Total People: @Model.TotalPeople
 
-		2. Run the application and manually browse to /Person. Then, browse to /Person/Index. Note that the
-		   result is the same.
+		2. Run the application and manually browse to /Person. Then, browse to /Person/Index. Note that the result
+		   is the same.
+
+		3. Also, note that "Total People" is displaying zero. This is happening because we didn't populate the
+		   TotalPeople property of our ViewModel. Let's do that now. In PersonController, modify the Index() action
+		   adding the following line just before "return View(personList);".
+
+			personList.TotalPeople = personList.People.Count;
+
+		   Then, run the application again and browser to /Person/Index. Note that "Total People" now shows 6 people.
+
+	H. Create a menu using Bootstrap's Navbar component so that you can navigate to Person/Index.
+
+		1. Modify Views/Shared/_Layout.cshtml.
+			a. Remove the <h1>Lunch!</h1> tag since the name of the application will be moved to the menu.
+			b. Add the following Bootstrap Navbar component directly inside your <body> tag.
+
+				<nav class="navbar navbar-inverse navbar-static-top">
+					<div class="container">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainMenu" aria-expanded="false">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="/">Lunch!</a>
+						</div>
+						<div class="collapse navbar-collapse" id="mainMenu">
+							<ul class="nav navbar-nav">
+								<li><a href="/Person">People</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+
+		2. Change the links to use Razor HTML helpers.
+			a. Modify <a class="navbar-brand" href="/Home/Index">Lunch!</a> to use the ActionLink helper by replacing
+			   it with the following code.
+
+				@Html.ActionLink("Lunch!", "Index", "Home", null, new { @class = "navbar-brand" })
+
+			b. Replace <li><a href="/Person">People</a></li> with this ActionLink helper.
+
+			    <li>@Html.ActionLink("People", "Index", "Person")</li>

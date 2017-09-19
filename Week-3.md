@@ -182,3 +182,42 @@ III. Implement Responsive Design, Views, and Models
 			b. Replace <li><a href="/Person">People</a></li> with this ActionLink helper.
 
 			    <li>@Html.ActionLink("People", "Index", "Person")</li>
+
+	I. Style the footer. Since Bootstrap doesn't provide styles specifically for our footer, we need to apply custom
+	   styles to our footer. There are many different ways to organize the files and folders of your web application.
+	   The instructions below closely mimic the MVC web application template in Visual Studio.
+
+		1. Right-click on the Lunch project. Select "Add", and choose "New Folder". Name the new folder "Content". The
+		   Content folder will contain any static files that we want to deliver in our application, including images,
+		   style sheets, JavaScript files, and more.
+
+		2. In your projects, you may choose to create sub-folders for different types of files under your Content folder,
+		   but for this project, we will add them directly to the Content folder. Right-click the Content folder, select
+		   "Add", and choose "Style Sheet". Name the new style sheet "Site" and press OK. Then, open the new Site.css
+		   file and replace its contents with the following.
+
+			footer {
+				margin-top: 50px;
+				background-color: #f9f9f9;
+				padding: 40px 0 20px 0;
+				border-top: 1px solid #ddd;
+				text-align: center;
+			}
+
+		3. Add the following line inside the head tag, just after the Bootstrap link tag.
+
+			<link href="~/Content/Site.css" rel="stylesheet">
+
+		4. Move the footer tag outside of the div with the container class. This will allow the footer to stretch the
+		   full width of the browser, like we did above with the menu.
+
+			    <div class="container">
+					<div>@RenderBody()</div>        
+				</div>
+				<footer>Lunch &copy; @DateTime.Now.Year Hungry Developers</footer>
+
+	J. The following concepts can be introduced:
+	    1. Using Razor syntax to bind a model to a view.
+	    2. Passing a model to the a view from the controller.
+		3. Implementing responsive design with Bootstrap.
+		4. More MVC routing and the relationship between controllers and views.

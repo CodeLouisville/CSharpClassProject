@@ -1,0 +1,20 @@
+﻿@model Lunch.Models.PersonViewModel
+@{
+    ViewBag.Title = "Person Detail";
+}
+
+<h2>@Model.FullName</h2>
+
+<div class="row">
+    <div class="col-sm-12 form-group">
+        @Html.LabelFor(m => m.LastName)
+        <br />@Html.DisplayFor(m => m.LastName)
+    </div>
+    <div class="col-sm-12 form-group">
+        @Html.LabelFor(m => m.FirstName)
+        <br />@Html.DisplayFor(m => m.FirstName)
+    </div>
+    <div class="col-sm-12">
+        @Html.ActionLink("Done", "Index", null, new { @class = "btn btn-primary" })
+    </div>
+</div>

@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -17,9 +18,15 @@
         {
             <tr>
                 <td>@Model.People[i].FullName</td>
+                <td>@Html.ActionLink("Detail", "PersonDetail", new { id = Model.People[i].PersonId })</td>
             </tr>
         }
     </tbody>
 </table>
 
-Total People: @Model.TotalPeople
+<div class="col-sm-12 form-group">
+    <label>Total People:</label> @Model.TotalPeople
+</div>
+<div class="col-sm-12">
+    @Html.ActionLink("Add Person", "NewPerson", null, new { @class = "btn btn-primary" })
+</div>

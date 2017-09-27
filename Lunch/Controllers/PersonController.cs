@@ -53,7 +53,7 @@ namespace Lunch.Controllers
             return new HttpNotFoundResult();
         }
 
-        public ActionResult NewPerson()
+        public ActionResult PersonAdd()
         {
             var personViewModel = new PersonViewModel();
 
@@ -75,6 +75,55 @@ namespace Lunch.Controllers
             People.Add(person);
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult PersonEdit(int id)
+        {
+            var person = People.SingleOrDefault(p => p.PersonId == id);
+            if (person != null)
+            {
+                var personViewModel = new PersonViewModel
+                {
+                    PersonId = person.PersonId,
+                    LastName = person.LastName,
+                    FirstName = person.FirstName
+                };
+
+                return View("AddEditPerson", personViewModel);
+            }
+
+            return new HttpNotFoundResult();
+        }
+
+        [HttpPost]
+        public ActionResult EditPerson(PersonViewModel personViewModel)
+        {
+            var person = People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
+
+            if (person != null)
+            {
+                person.LastName = personViewModel.LastName;
+                person.FirstName = personViewModel.FirstName;
+
+                return RedirectToAction("Index");
+            }
+
+            return new HttpNotFoundResult();
+        }
+
+        [HttpPost]
+        public ActionResult DeletePerson(PersonViewModel personViewModel)
+        {
+            var person = People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
+
+            if (person != null)
+            {
+                People.Remove(person);
+
+                return RedirectToAction("Index");
+            }
+
+            return new HttpNotFoundResult();
         }
     }
 }

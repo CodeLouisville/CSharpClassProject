@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -17,9 +18,40 @@
         {
             <tr>
                 <td>@Model.People[i].FullName</td>
+                <td>
+                    @Html.ActionLink("Detail", "PersonDetail", new { id = Model.People[i].PersonId })
+                    | @Html.ActionLink("Edit", "PersonEdit", new { id = Model.People[i].PersonId })
+                    | <a data-toggle="modal" href="@("#deletePersonModal" + i)">Delete</a>
+                    <div class="modal fade" id="@("deletePersonModal" + i)" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                @using (Html.BeginForm("DeletePerson", "Person"))
+                                {
+                                    <input type="hidden" value="@Model.People[i].PersonId" name="PersonId" />
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Delete @Model.People[i].FullName</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete @Model.People[i].FullName?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Yes</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
-Total People: @Model.TotalPeople
+<div class="col-sm-12 form-group">
+    <label>Total People:</label> @Model.TotalPeople
+</div>
+<div class="col-sm-12">
+    @Html.ActionLink("Add Person", "PersonAdd", null, new { @class = "btn btn-primary" })
+</div>

@@ -1,33 +1,129 @@
-﻿using System;
+﻿using Lunch.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Lunch.Models;
 
 namespace Lunch.Controllers
 {
     public class PersonController : Controller
     {
-        // GET: Person
+        public static List<Person> People = new List<Person>
+        {
+            new Person { PersonId = 1, LastName = "Gibbons", FirstName = "Peter" },
+            new Person { PersonId = 2, LastName = "Bolton", FirstName = "Michael" },
+            new Person { PersonId = 3, LastName = "Nagheenanajar", FirstName = "Samir"},
+            new Person { PersonId = 4, LastName = "Smykowski", FirstName = "Tom" },
+            new Person { PersonId = 5, LastName = "Waddams", FirstName = "Milton" },
+            new Person { PersonId = 6, LastName = "Lumbergh", FirstName = "Bill" }
+        };
+
         public ActionResult Index()
         {
             var personList = new PersonListViewModel
             {
-                People = new List<PersonViewModel>
+                //Convert each Person to a PersonViewModel
+                People = People.Select(p => new PersonViewModel
                 {
-                    new PersonViewModel { PersonId = 1, LastName = "Gibbons", FirstName = "Peter" },
-                    new PersonViewModel { PersonId = 2, LastName = "Bolton", FirstName = "Michael" },
-                    new PersonViewModel { PersonId = 3, LastName = "Nagheenanajar", FirstName = "Samir"},
-                    new PersonViewModel { PersonId = 4, LastName = "Smykowski", FirstName = "Tom" },
-                    new PersonViewModel { PersonId = 5, LastName = "Waddams", FirstName = "Milton" },
-                    new PersonViewModel { PersonId = 6, LastName = "Lumbergh", FirstName = "Bill" }
-                }
+                    PersonId = p.PersonId,
+                    LastName = p.LastName,
+                    FirstName = p.FirstName
+                }).ToList()
             };
 
             personList.TotalPeople = personList.People.Count;
 
             return View(personList);
+        }
+
+        public ActionResult PersonDetail(int id)
+        {
+            var person = People.SingleOrDefault(p => p.PersonId == id);
+            if (person != null)
+            {
+                var personViewModel = new PersonViewModel
+                {
+                    PersonId = person.PersonId,
+                    LastName = person.LastName,
+                    FirstName = person.FirstName
+                };
+
+                return View(personViewModel);
+            }
+
+            return new HttpNotFoundResult();
+        }
+
+        public ActionResult PersonAdd()
+        {
+            var personViewModel = new PersonViewModel();
+
+            return View("AddEditPerson", personViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult AddPerson(PersonViewModel personViewModel)
+        {
+            var nextPersonId = People.Max(p => p.PersonId) + 1;
+
+            var person = new Person
+            {
+                PersonId = nextPersonId,
+                LastName = personViewModel.LastName,
+                FirstName = personViewModel.FirstName
+            };
+
+            People.Add(person);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult PersonEdit(int id)
+        {
+            var person = People.SingleOrDefault(p => p.PersonId == id);
+            if (person != null)
+            {
+                var personViewModel = new PersonViewModel
+                {
+                    PersonId = person.PersonId,
+                    LastName = person.LastName,
+                    FirstName = person.FirstName
+                };
+
+                return View("AddEditPerson", personViewModel);
+            }
+
+            return new HttpNotFoundResult();
+        }
+
+        [HttpPost]
+        public ActionResult EditPerson(PersonViewModel personViewModel)
+        {
+            var person = People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
+
+            if (person != null)
+            {
+                person.LastName = personViewModel.LastName;
+                person.FirstName = personViewModel.FirstName;
+
+                return RedirectToAction("Index");
+            }
+
+            return new HttpNotFoundResult();
+        }
+
+        [HttpPost]
+        public ActionResult DeletePerson(PersonViewModel personViewModel)
+        {
+            var person = People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
+
+            if (person != null)
+            {
+                People.Remove(person);
+
+                return RedirectToAction("Index");
+            }
+
+            return new HttpNotFoundResult();
         }
     }
 }

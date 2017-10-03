@@ -7,56 +7,43 @@ namespace Lunch.Controllers
 {
     public class PersonController : Controller
     {
-        public static List<Person> People = new List<Person>
-        {
-            new Person { PersonId = 1, LastName = "Halpert", FirstName = "Jim" },
-            new Person { PersonId = 2, LastName = "Beesly", FirstName = "Pam" },
-            new Person { PersonId = 3, LastName = "Scott", FirstName = "Michael"},
-            new Person { PersonId = 4, LastName = "Schrute", FirstName = "Dwight" },
-            new Person { PersonId = 5, LastName = "Martin", FirstName = "Angela" },
-            new Person { PersonId = 6, LastName = "Bernard", FirstName = "Andy" },
-            new Person { PersonId = 7, LastName = "Malone", FirstName = "Kevin" },
-            new Person { PersonId = 8, LastName = "Kapoor", FirstName = "Kelly" },
-            new Person { PersonId = 9, LastName = "Palmer", FirstName = "Meredith" },
-            new Person { PersonId = 10, LastName = "Flenderson", FirstName = "Toby" },
-            new Person { PersonId = 11, LastName = "Hudson", FirstName = "Stanley" },
-            new Person { PersonId = 12, LastName = "Bratton", FirstName = "Creed" },
-            new Person { PersonId = 13, LastName = "Vance", FirstName = "Phyllis" },
-            new Person { PersonId = 14, LastName = "Howard", FirstName = "Ryan" },
-            new Person { PersonId = 15, LastName = "Philbin", FirstName = "Darryl" }
-        };
-
         public ActionResult Index()
         {
-            var personList = new PersonListViewModel
+            using (var lunchContext = new LunchContext())
             {
-                //Convert each Person to a PersonViewModel
-                People = People.Select(p => new PersonViewModel
+                var personList = new PersonListViewModel
                 {
-                    PersonId = p.PersonId,
-                    LastName = p.LastName,
-                    FirstName = p.FirstName
-                }).ToList()
-            };
+                    //Convert each Person to a PersonViewModel
+                    People = lunchContext.People.Select(p => new PersonViewModel
+                    {
+                        PersonId = p.PersonId,
+                        LastName = p.LastName,
+                        FirstName = p.FirstName
+                    }).ToList()
+                };
 
-            personList.TotalPeople = personList.People.Count;
+                personList.TotalPeople = personList.People.Count;
 
-            return View(personList);
+                return View(personList);
+            }
         }
 
         public ActionResult PersonDetail(int id)
         {
-            var person = People.SingleOrDefault(p => p.PersonId == id);
-            if (person != null)
+            using (var lunchContext = new LunchContext())
             {
-                var personViewModel = new PersonViewModel
+                var person = lunchContext.People.SingleOrDefault(p => p.PersonId == id);
+                if (person != null)
                 {
-                    PersonId = person.PersonId,
-                    LastName = person.LastName,
-                    FirstName = person.FirstName
-                };
+                    var personViewModel = new PersonViewModel
+                    {
+                        PersonId = person.PersonId,
+                        LastName = person.LastName,
+                        FirstName = person.FirstName
+                    };
 
-                return View(personViewModel);
+                    return View(personViewModel);
+                }
             }
 
             return new HttpNotFoundResult();
@@ -72,33 +59,37 @@ namespace Lunch.Controllers
         [HttpPost]
         public ActionResult AddPerson(PersonViewModel personViewModel)
         {
-            var nextPersonId = People.Max(p => p.PersonId) + 1;
-
-            var person = new Person
+            using (var lunchContext = new LunchContext())
             {
-                PersonId = nextPersonId,
-                LastName = personViewModel.LastName,
-                FirstName = personViewModel.FirstName
-            };
+                var person = new Person
+                {
+                    LastName = personViewModel.LastName,
+                    FirstName = personViewModel.FirstName
+                };
 
-            People.Add(person);
+                lunchContext.People.Add(person);
+                lunchContext.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
 
         public ActionResult PersonEdit(int id)
         {
-            var person = People.SingleOrDefault(p => p.PersonId == id);
-            if (person != null)
+            using (var lunchContext = new LunchContext())
             {
-                var personViewModel = new PersonViewModel
+                var person = lunchContext.People.SingleOrDefault(p => p.PersonId == id);
+                if (person != null)
                 {
-                    PersonId = person.PersonId,
-                    LastName = person.LastName,
-                    FirstName = person.FirstName
-                };
+                    var personViewModel = new PersonViewModel
+                    {
+                        PersonId = person.PersonId,
+                        LastName = person.LastName,
+                        FirstName = person.FirstName
+                    };
 
-                return View("AddEditPerson", personViewModel);
+                    return View("AddEditPerson", personViewModel);
+                }
             }
 
             return new HttpNotFoundResult();
@@ -107,14 +98,18 @@ namespace Lunch.Controllers
         [HttpPost]
         public ActionResult EditPerson(PersonViewModel personViewModel)
         {
-            var person = People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
-
-            if (person != null)
+            using (var lunchContext = new LunchContext())
             {
-                person.LastName = personViewModel.LastName;
-                person.FirstName = personViewModel.FirstName;
+                var person = lunchContext.People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
 
-                return RedirectToAction("Index");
+                if (person != null)
+                {
+                    person.LastName = personViewModel.LastName;
+                    person.FirstName = personViewModel.FirstName;
+                    lunchContext.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
             }
 
             return new HttpNotFoundResult();
@@ -123,13 +118,17 @@ namespace Lunch.Controllers
         [HttpPost]
         public ActionResult DeletePerson(PersonViewModel personViewModel)
         {
-            var person = People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
-
-            if (person != null)
+            using (var lunchContext = new LunchContext())
             {
-                People.Remove(person);
+                var person = lunchContext.People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
 
-                return RedirectToAction("Index");
+                if (person != null)
+                {
+                    lunchContext.People.Remove(person);
+                    lunchContext.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
             }
 
             return new HttpNotFoundResult();

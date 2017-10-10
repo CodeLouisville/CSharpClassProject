@@ -8,5 +8,9 @@ namespace Lunch
         public LunchContext() : base("name=Lunch") { }
 
         public virtual DbSet<Person> People { get; set; }
+
+        public virtual DbSet<Cuisine> Cuisines { get; set; }
+
+        public virtual DbSet<Restaurant> Restaurants { get; set; }
     }
 }

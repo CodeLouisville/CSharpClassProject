@@ -128,15 +128,26 @@
     <Compile Include="Migrations\201710030327258_InitialMigration.Designer.cs">
       <DependentUpon>201710030327258_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710100312240_CuisinesAndRestaurants.cs" />
+    <Compile Include="Migrations\201710100312240_CuisinesAndRestaurants.Designer.cs">
+      <DependentUpon>201710100312240_CuisinesAndRestaurants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Cuisine.cs" />
+    <Compile Include="Models\CuisineViewModel.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
+    <Compile Include="Models\Restaurant.cs" />
+    <Compile Include="Models\RestaurantViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201710030327258_InitialMigration.resx">
       <DependentUpon>201710030327258_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710100312240_CuisinesAndRestaurants.resx">
+      <DependentUpon>201710100312240_CuisinesAndRestaurants.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

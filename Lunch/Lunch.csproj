@@ -106,6 +106,9 @@
     <Content Include="Views\Person\Index.cshtml" />
     <Content Include="Views\Person\PersonDetail.cshtml" />
     <Content Include="Views\Person\AddEditPerson.cshtml" />
+    <Content Include="Views\Restaurant\Index.cshtml" />
+    <Content Include="Views\Restaurant\AddEditRestaurant.cshtml" />
+    <Content Include="Views\Restaurant\RestaurantDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -120,6 +123,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -128,17 +132,30 @@
     <Compile Include="Migrations\201710030327258_InitialMigration.Designer.cs">
       <DependentUpon>201710030327258_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710100312240_CuisinesAndRestaurants.cs" />
+    <Compile Include="Migrations\201710100312240_CuisinesAndRestaurants.Designer.cs">
+      <DependentUpon>201710100312240_CuisinesAndRestaurants.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Cuisine.cs" />
+    <Compile Include="Models\CuisineViewModel.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
+    <Compile Include="Models\Restaurant.cs" />
+    <Compile Include="Models\RestaurantListViewModel.cs" />
+    <Compile Include="Models\RestaurantViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201710030327258_InitialMigration.resx">
       <DependentUpon>201710030327258_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710100312240_CuisinesAndRestaurants.resx">
+      <DependentUpon>201710100312240_CuisinesAndRestaurants.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1,0 +1,57 @@
+﻿@model Lunch.Models.RestaurantListViewModel
+
+@{
+    ViewBag.Title = "Restaurants";
+}
+
+<h2>Restaurants</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Restaurants.Count; i++)
+        {
+            <tr>
+                <td>@Model.Restaurants[i].Name</td>
+                <td>
+                    @Html.ActionLink("Detail", "RestaurantDetail", new { id = Model.Restaurants[i].RestaurantId })
+                    | @Html.ActionLink("Edit", "RestaurantEdit", new { id = Model.Restaurants[i].RestaurantId })
+                    | <a data-toggle="modal" href="@("#deleteRestaurantModal" + i)">Delete</a>
+                    <div class="modal fade" id="@("deleteRestaurantModal" + i)" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                @using (Html.BeginForm("DeleteRestaurant", "Restaurant"))
+                                {
+                                    <input type="hidden" value="@Model.Restaurants[i].RestaurantId" name="RestaurantId" />
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Delete @Model.Restaurants[i].Name</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete @Model.Restaurants[i].Name?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Yes</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="col-sm-12 form-group">
+    <label>Total Restaurants:</label> @Model.TotalRestaurants
+</div>
+<div class="col-sm-12">
+    @Html.ActionLink("Add Restaurant", "RestaurantAdd", null, new { @class = "btn btn-primary" })
+</div>

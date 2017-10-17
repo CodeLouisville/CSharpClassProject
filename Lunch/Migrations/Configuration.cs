@@ -48,16 +48,16 @@ namespace Lunch.Migrations
             context.Restaurants.AddOrUpdate(
                 r => r.RestaurantId,
                 new Restaurant { RestaurantId = 1, Name = "Pizza by Alfredo", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Alfredo's Pizza Cafe", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Chili's", CuisineId = 7 },
-                new Restaurant { RestaurantId = 1, Name = "Cooper's Seafood", CuisineId = 6 },
-                new Restaurant { RestaurantId = 1, Name = "Poor Richard's Pub", CuisineId = 1 },
-                new Restaurant { RestaurantId = 1, Name = "Benihana", CuisineId = 4 },
-                new Restaurant { RestaurantId = 1, Name = "Auntie Anne's Pretzels", CuisineId = 1 },
-                new Restaurant { RestaurantId = 1, Name = "Brunetti's Pizza", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Cugino's", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Dee Jay's", CuisineId = 1 },
-                new Restaurant { RestaurantId = 1, Name = "Farley's Restaurant", CuisineId = 6 }
+                new Restaurant { RestaurantId = 2, Name = "Alfredo's Pizza Cafe", CuisineId = 3 },
+                new Restaurant { RestaurantId = 3, Name = "Chili's", CuisineId = 7 },
+                new Restaurant { RestaurantId = 4, Name = "Cooper's Seafood", CuisineId = 6 },
+                new Restaurant { RestaurantId = 5, Name = "Poor Richard's Pub", CuisineId = 1 },
+                new Restaurant { RestaurantId = 6, Name = "Benihana", CuisineId = 4 },
+                new Restaurant { RestaurantId = 7, Name = "Auntie Anne's Pretzels", CuisineId = 1 },
+                new Restaurant { RestaurantId = 8, Name = "Brunetti's Pizza", CuisineId = 3 },
+                new Restaurant { RestaurantId = 9, Name = "Cugino's", CuisineId = 3 },
+                new Restaurant { RestaurantId = 10, Name = "Dee Jay's", CuisineId = 1 },
+                new Restaurant { RestaurantId = 11, Name = "Farley's Restaurant", CuisineId = 6 }
             );
         }
     }

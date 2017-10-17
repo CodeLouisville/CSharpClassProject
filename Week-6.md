@@ -2,7 +2,7 @@
 
 In week 6, we should be working in the Week6 branch. We start with the basic ASP.NET MVC Web Application created in weeks 1-5. Following these instructions, we will add new entities to our data models and our database. We will then create a one-to-many relationship between two entities. 
 
-V. Add new entities to our data models, along with views, view models, etc. to manage these objects.
+VI. Add new entities to our data models, along with views, view models, etc. to manage these objects.
 
 	A. Create new data models for cuisines and restaurants, and add a migration to update our database with the new tables.
 
@@ -54,16 +54,16 @@ V. Add new entities to our data models, along with views, view models, etc. to m
             context.Restaurants.AddOrUpdate(
                 r => r.RestaurantId,
                 new Restaurant { RestaurantId = 1, Name = "Pizza by Alfredo", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Alfredo's Pizza Cafe", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Chili's", CuisineId = 7 },
-                new Restaurant { RestaurantId = 1, Name = "Cooper's Seafood", CuisineId = 6 },
-                new Restaurant { RestaurantId = 1, Name = "Poor Richard's Pub", CuisineId = 1 },
-                new Restaurant { RestaurantId = 1, Name = "Benihana", CuisineId = 4 },
-                new Restaurant { RestaurantId = 1, Name = "Auntie Anne's Pretzels", CuisineId = 1 },
-                new Restaurant { RestaurantId = 1, Name = "Brunetti's Pizza", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Cugino's", CuisineId = 3 },
-                new Restaurant { RestaurantId = 1, Name = "Dee Jay's", CuisineId = 1 },
-                new Restaurant { RestaurantId = 1, Name = "Farley's Restaurant", CuisineId = 6 }
+                new Restaurant { RestaurantId = 2, Name = "Alfredo's Pizza Cafe", CuisineId = 3 },
+                new Restaurant { RestaurantId = 3, Name = "Chili's", CuisineId = 7 },
+                new Restaurant { RestaurantId = 4, Name = "Cooper's Seafood", CuisineId = 6 },
+                new Restaurant { RestaurantId = 5, Name = "Poor Richard's Pub", CuisineId = 1 },
+                new Restaurant { RestaurantId = 6, Name = "Benihana", CuisineId = 4 },
+                new Restaurant { RestaurantId = 7, Name = "Auntie Anne's Pretzels", CuisineId = 1 },
+                new Restaurant { RestaurantId = 8, Name = "Brunetti's Pizza", CuisineId = 3 },
+                new Restaurant { RestaurantId = 9, Name = "Cugino's", CuisineId = 3 },
+                new Restaurant { RestaurantId = 10, Name = "Dee Jay's", CuisineId = 1 },
+                new Restaurant { RestaurantId = 11, Name = "Farley's Restaurant", CuisineId = 6 }
             );
 
 		5. From the Tools menu, expand NuGet Package Manager and select Package Manager Console. From the PM> prompt, type Add-Migration and press <Enter>. When prompted for the Name, type CuisinesAndRestaurants. Inspect the migration that was created, and note that when the CreateTable() method is instructing Entity Framework to create the Restaurants table, it is also telling it to add a foreign key on the CuisineId column, creating a relationship to the Cuisine's table. This was all accomplished by following naming conventions, although we could have done this explicitly if we really wanted to break from those conventions.
@@ -91,7 +91,7 @@ V. Add new entities to our data models, along with views, view models, etc. to m
 				{
 					public int? RestaurantId { get; set; }
 					public string Name { get; set; }
-					public virtual Cuisine Cuisine { get; set; }
+					public CuisineViewModel Cuisine { get; set; }
 				}
 			}
 

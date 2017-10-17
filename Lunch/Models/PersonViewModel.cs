@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Lunch.Models
 {
@@ -14,5 +15,7 @@ namespace Lunch.Models
 
         [DisplayName("Name")]
         public string FullName => FirstName + " " + LastName;
+
+        public List<FoodPreferenceViewModel> FoodPreferences { get; set; }
     }
 }

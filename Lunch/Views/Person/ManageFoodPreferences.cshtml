@@ -1,0 +1,66 @@
+﻿@model Lunch.Models.PersonViewModel
+
+@{
+    ViewBag.Title = Model.FullName + "'s Food Preferences";
+    var FoodPreferences = ViewBag.AllPossibleFoodPreferences as List<Lunch.Models.FoodPreferenceViewModel>;
+}
+
+<h2>@Model.FullName's Food Preferences</h2>
+
+@for (var i = 0; i < FoodPreferences.Count; i++)
+{
+    var selectedValue = Model.FoodPreferences.FirstOrDefault(fp => fp.Cuisine.CuisineId == FoodPreferences[i].Cuisine.CuisineId)?.Rating;
+
+    <div class="form-group">
+        <div>
+            <label>@FoodPreferences[i].Cuisine.Name</label>
+        </div>
+        <div>
+            <input type="range" id="prefSlider@(i)" value="@(selectedValue == null ? -1 : selectedValue)" oninput="setPrefDescription(@(i))" min="@(selectedValue == null ? -1 : 0)" max="5" step="1" style="width: 300px;" />
+            <span id="prefDescription@(i)"></span>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function setPrefDescription(index) {
+        var prefDescriptionLabel = document.getElementById("prefDescription" + index);
+        var prefSliderValue = parseInt(document.getElementById("prefSlider" + index).value);
+        switch (prefSliderValue)
+        {
+            case -1:
+                prefDescriptionLabel.innerHTML = "Not set";
+                prefDescriptionLabel.style.color = "gray";
+                break;
+            case 0:
+                prefDescriptionLabel.innerHTML = "Hate it";
+                prefDescriptionLabel.style.color = "red";
+                break;
+            case 1:
+                prefDescriptionLabel.innerHTML = "Don't care for it";
+                prefDescriptionLabel.style.color = "orange";
+                break;
+            case 2:
+                prefDescriptionLabel.innerHTML = "If I have to";
+                prefDescriptionLabel.style.color = "orange";
+                break;
+            case 3:
+                prefDescriptionLabel.innerHTML = "It's OK";
+                prefDescriptionLabel.style.color = "green";
+                break;
+            case 4:
+                prefDescriptionLabel.innerHTML = "Like it";
+                prefDescriptionLabel.style.color = "green";
+                break;
+            case 5:
+                prefDescriptionLabel.innerHTML = "Love it";
+                prefDescriptionLabel.style.color = "green";
+                break;
+        }
+    }
+
+    @for (var i = 0; i < FoodPreferences.Count; i++)
+    {
+        <text>setPrefDescription(@(i));</text>
+    }
+</script>

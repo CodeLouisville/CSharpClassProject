@@ -109,6 +109,7 @@
     <Content Include="Views\Restaurant\Index.cshtml" />
     <Content Include="Views\Restaurant\AddEditRestaurant.cshtml" />
     <Content Include="Views\Restaurant\RestaurantDetail.cshtml" />
+    <Content Include="Views\Person\ManageFoodPreferences.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -136,9 +137,15 @@
     <Compile Include="Migrations\201710100312240_CuisinesAndRestaurants.Designer.cs">
       <DependentUpon>201710100312240_CuisinesAndRestaurants.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710170314465_FoodPreferences.cs" />
+    <Compile Include="Migrations\201710170314465_FoodPreferences.Designer.cs">
+      <DependentUpon>201710170314465_FoodPreferences.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cuisine.cs" />
     <Compile Include="Models\CuisineViewModel.cs" />
+    <Compile Include="Models\FoodPreference.cs" />
+    <Compile Include="Models\FoodPreferenceViewModel.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
@@ -153,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710100312240_CuisinesAndRestaurants.resx">
       <DependentUpon>201710100312240_CuisinesAndRestaurants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710170314465_FoodPreferences.resx">
+      <DependentUpon>201710170314465_FoodPreferences.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

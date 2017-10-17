@@ -133,5 +133,39 @@ namespace Lunch.Controllers
 
             return new HttpNotFoundResult();
         }
+
+        public ActionResult ManageFoodPreferences(int id)
+        {
+            using (var lunchContext = new LunchContext())
+            {
+                var person = lunchContext.People.Include("FoodPreferences").SingleOrDefault(p => p.PersonId == id);
+                
+                if (person != null)
+                {
+                    var allPossibleFoodPreferences = lunchContext.Cuisines.Select(c => new FoodPreferenceViewModel
+                    {
+                        Cuisine = new CuisineViewModel { CuisineId = c.CuisineId, Name = c.Name }
+                    }).ToList();
+
+                    ViewBag.AllPossibleFoodPreferences = allPossibleFoodPreferences;
+
+                    var personViewModel = new PersonViewModel
+                    {
+                        PersonId = person.PersonId,
+                        LastName = person.LastName,
+                        FirstName = person.FirstName,
+                        FoodPreferences = person.FoodPreferences.Select(fp => new FoodPreferenceViewModel
+                        {
+                            Cuisine = new CuisineViewModel { CuisineId = fp.CuisineId },
+                            Rating = fp.Rating
+                        }).ToList()
+                    };
+
+                    return View(personViewModel);
+                }
+
+                return new HttpNotFoundResult();
+            }
+        }
     }
 }

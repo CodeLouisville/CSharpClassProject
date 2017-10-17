@@ -45,6 +45,16 @@ namespace Lunch.Migrations
 
             context.SaveChanges();
 
+            context.FoodPreferences.AddOrUpdate(
+                fp => new { fp.PersonId, fp.CuisineId },
+                new FoodPreference { PersonId = 1, CuisineId = 1, Rating = 5 },
+                new FoodPreference { PersonId = 1, CuisineId = 2, Rating = 0 },
+                new FoodPreference { PersonId = 1, CuisineId = 3, Rating = 3 },
+                new FoodPreference { PersonId = 2, CuisineId = 1, Rating = 4 },
+                new FoodPreference { PersonId = 2, CuisineId = 2, Rating = 1 },
+                new FoodPreference { PersonId = 2, CuisineId = 3, Rating = 5 }
+            );
+
             context.Restaurants.AddOrUpdate(
                 r => r.RestaurantId,
                 new Restaurant { RestaurantId = 1, Name = "Pizza by Alfredo", CuisineId = 3 },

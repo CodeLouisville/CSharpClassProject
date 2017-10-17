@@ -12,5 +12,7 @@ namespace Lunch
         public virtual DbSet<Cuisine> Cuisines { get; set; }
 
         public virtual DbSet<Restaurant> Restaurants { get; set; }
+
+        public virtual DbSet<FoodPreference> FoodPreferences { get; set; }
     }
 }

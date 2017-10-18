@@ -97,14 +97,14 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 
 	B. Add the view model for FoodPreferences.
 
-		1. Right-click the Models folder, select Add, and click Class. Name the class FoodPreferenceViewModel. Replace all of the code in the FoodPreferenceViewModel.cs file with the code below. Note that I am making the Rating property nullable. We will use this null value later to determine whether a rating has been made. This is necessary, since zero will be considered a valid rating. Also, note that I am not including a Person property. Typically, we will be interacting with FoodPreferences through the people that they belong to, making the food preference a child of a person.
+		1. Right-click the Models folder, select Add, and click Class. Name the class FoodPreferenceViewModel. Replace all of the code in the FoodPreferenceViewModel.cs file with the code below. Note that I am not including a Person property. Typically, we will be interacting with FoodPreferences through the people that they belong to, making the food preference a child of a person.
 
 			namespace Lunch.Models
 			{
 				public class FoodPreferenceViewModel
 				{
 					public CuisineViewModel Cuisine { get; set; }
-					public int? Rating { get; set; }
+					public int Rating { get; set; }
 				}
 			}
 
@@ -117,6 +117,11 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 			{
 				public class PersonViewModel
 				{
+				    public PersonViewModel()
+					{
+						FoodPreferences = new List<FoodPreferenceViewModel>();
+					}
+
 					public int? PersonId { get; set; }
 
 					[DisplayName("Last Name")]
@@ -132,7 +137,7 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 				}
 			}
 
-		3. Modify the PersonController, adding the following controller action. You will need to add "using System.Data.Entity;" to the top of the file for this code to work. By specifying that we want to "Include" the person's food preferences, we are employing a practice called eager loading. We know that we will be accessing the person's food preferences, so we can tell Entity Framekwork to include these in the query that it generates. This way, we don't have to make multiple round-trips to the database.
+		3. Modify the PersonController, adding the following controller action. By specifying that we want to "Include" the person's food preferences, we are employing a practice called eager loading. We know that we will be accessing the person's food preferences, so we can tell Entity Framekwork to include these in the query that it generates. This way, we don't have to make multiple round-trips to the database.
 
 			public ActionResult ManageFoodPreferences(int id)
 			{
@@ -174,67 +179,139 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 
 			@{
 				ViewBag.Title = Model.FullName + "'s Food Preferences";
-				var FoodPreferences = ViewBag.AllPossibleFoodPreferences as List<Lunch.Models.FoodPreferenceViewModel>;
 			}
 
 			<h2>@Model.FullName's Food Preferences</h2>
 
-			@for (var i = 0; i < FoodPreferences.Count; i++)
+			@using (Html.BeginForm("EditFoodPreferences", "Person", "POST"))
 			{
-				var selectedValue = Model.FoodPreferences.FirstOrDefault(fp => fp.Cuisine.CuisineId == FoodPreferences[i].Cuisine.CuisineId)?.Rating;
+				@Html.HiddenFor(m => m.PersonId)
 
-				<div class="form-group">
-					<div>
-						<label>@FoodPreferences[i].Cuisine.Name</label>
-					</div>
-					<div>
-						<input type="range" id="prefSlider@(i)" value="@(selectedValue == null ? -1 : selectedValue)" oninput="setPrefDescription(@(i))" min="@(selectedValue == null ? -1 : 0)" max="5" step="1" style="width: 300px;" />
-						<span id="prefDescription@(i)"></span>
-					</div>
+				<div class="col-xs-12">
+					<button type="submit" class="btn btn-primary">Save</button>
+					@Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+					<hr />
 				</div>
+    
+				for (var i = 0; i < Model.FoodPreferences.Count; i++)
+				{
+					@Html.HiddenFor(m => m.FoodPreferences[i].Cuisine.CuisineId)
+
+					var selectedValue = Model.FoodPreferences.FirstOrDefault(fp => fp.Cuisine.CuisineId == Model.FoodPreferences[i].Cuisine.CuisineId)?.Rating;
+
+					<div class="col-sm-4">
+						<div id="prefPanel@(i)" class="panel panel-default">
+							<div class="panel-heading">
+								@Model.FoodPreferences[i].Cuisine.Name
+							</div>
+							<div class="panel-body">
+								@Html.TextBoxFor(m => m.FoodPreferences[i].Rating, new { @type = "range", min = Model.FoodPreferences[i].Rating == -1 ? "-1" : "0", max = "5", step = "1" })
+								<div style="text-align: center;">
+									<span id="prefDescription@(i)"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
 			}
 
 			<script type="text/javascript">
 				function setPrefDescription(index) {
 					var prefDescriptionLabel = document.getElementById("prefDescription" + index);
-					var prefSliderValue = parseInt(document.getElementById("prefSlider" + index).value);
-					switch (prefSliderValue)
-					{
+					var prefPanel = document.getElementById("prefPanel" + index);
+					var prefSliderValue = parseInt(document.getElementById("FoodPreferences_" + index + "__Rating").value);
+
+					switch (prefSliderValue) {
 						case -1:
 							prefDescriptionLabel.innerHTML = "Not set";
-							prefDescriptionLabel.style.color = "gray";
+							prefDescriptionLabel.className = "";
+							prefPanel.className = "panel panel-default";
 							break;
 						case 0:
 							prefDescriptionLabel.innerHTML = "Hate it";
-							prefDescriptionLabel.style.color = "red";
+							prefDescriptionLabel.className = "text-danger";
+							prefPanel.className = "panel panel-danger";
 							break;
 						case 1:
 							prefDescriptionLabel.innerHTML = "Don't care for it";
-							prefDescriptionLabel.style.color = "orange";
+							prefDescriptionLabel.className = "text-warning";
+							prefPanel.className = "panel panel-warning";
 							break;
 						case 2:
 							prefDescriptionLabel.innerHTML = "If I have to";
-							prefDescriptionLabel.style.color = "orange";
+							prefDescriptionLabel.className = "text-warning";
+							prefPanel.className = "panel panel-warning";
 							break;
 						case 3:
 							prefDescriptionLabel.innerHTML = "It's OK";
-							prefDescriptionLabel.style.color = "green";
+							prefDescriptionLabel.className = "text-info";
+							prefPanel.className = "panel panel-info";
 							break;
 						case 4:
 							prefDescriptionLabel.innerHTML = "Like it";
-							prefDescriptionLabel.style.color = "green";
+							prefDescriptionLabel.className = "text-success";
+							prefPanel.className = "panel panel-success";
 							break;
 						case 5:
 							prefDescriptionLabel.innerHTML = "Love it";
-							prefDescriptionLabel.style.color = "green";
+							prefDescriptionLabel.className = "text-success";
+							prefPanel.className = "panel panel-success";
 							break;
 					}
 				}
 
-				@for (var i = 0; i < FoodPreferences.Count; i++)
+				@for (var i = 0; i < Model.FoodPreferences.Count; i++)
 				{
-					<text>setPrefDescription(@(i));</text>
+					<text>
+					document.getElementById("FoodPreferences_@(i)__Rating").oninput = function () { setPrefDescription(@i) };
+					setPrefDescription(@i);
+					</text>
 				}
 			</script>
 
-		5. TODO: Make this work!
+		5. Add the following action to the PersonController class.
+
+			[HttpPost]
+			public ActionResult EditFoodPreferences(PersonViewModel personViewModel)
+			{
+				using (var lunchContext = new LunchContext())
+				{
+					var person = lunchContext.People.Include("FoodPreferences").SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
+
+					if (person == null)
+						return new HttpNotFoundResult();
+
+					foreach (var foodPreference in personViewModel.FoodPreferences)
+					{
+						if (foodPreference.Rating != -1)
+						{
+							var existingFoodPreference = person.FoodPreferences.SingleOrDefault(fp => fp.CuisineId == foodPreference.Cuisine.CuisineId);
+							if (existingFoodPreference != null)
+							{
+								existingFoodPreference.Rating = foodPreference.Rating;
+							}
+							else
+							{
+								person.FoodPreferences.Add(new FoodPreference
+								{
+									CuisineId = foodPreference.Cuisine.CuisineId.Value,
+									Rating = foodPreference.Rating
+								});
+							}
+						}
+					}
+
+					lunchContext.SaveChanges();
+
+					return RedirectToAction("Index");
+				}
+			}
+
+		6. Finally, add the following line just under the PersonEdit ActionLink, giving us a way to navigate to the new food preferences view.
+
+			| @Html.ActionLink("Food Preferences", "ManageFoodPreferences", new { id = Model.People[i].PersonId })
+
+	C. Run the application and start managing food preferences. The following concepts can be introduced:
+
+	    1. Adding a many-to-many relationship between two entities using Entity Framework.
+	    2. Posting a complex model and binding that model to a controller action.

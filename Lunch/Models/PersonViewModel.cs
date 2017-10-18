@@ -5,6 +5,11 @@ namespace Lunch.Models
 {
     public class PersonViewModel
     {
+        public PersonViewModel()
+        {
+            FoodPreferences = new List<FoodPreferenceViewModel>();
+        }
+
         public int? PersonId { get; set; }
 
         [DisplayName("Last Name")]

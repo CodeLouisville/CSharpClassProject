@@ -140,31 +140,67 @@ namespace Lunch.Controllers
             {
                 var person = lunchContext.People.Include("FoodPreferences").SingleOrDefault(p => p.PersonId == id);
                 
-                if (person != null)
+                if (person == null)
+                    return new HttpNotFoundResult();
+                
+                var personViewModel = new PersonViewModel {
+                    PersonId = person.PersonId,
+                    LastName = person.LastName,
+                    FirstName = person.FirstName
+                };
+
+                foreach (var cuisine in lunchContext.Cuisines)
                 {
-                    var allPossibleFoodPreferences = lunchContext.Cuisines.Select(c => new FoodPreferenceViewModel
+                    //If no rating is found, currentRating will be null. "?." is inown as the null-conditional operator. It
+                    //keeps us from having to write more code to deal with null values.
+                    var currentRating = person.FoodPreferences.SingleOrDefault(fp => fp.CuisineId == cuisine.CuisineId)?.Rating;
+
+                    personViewModel.FoodPreferences.Add(new FoodPreferenceViewModel
                     {
-                        Cuisine = new CuisineViewModel { CuisineId = c.CuisineId, Name = c.Name }
-                    }).ToList();
-
-                    ViewBag.AllPossibleFoodPreferences = allPossibleFoodPreferences;
-
-                    var personViewModel = new PersonViewModel
-                    {
-                        PersonId = person.PersonId,
-                        LastName = person.LastName,
-                        FirstName = person.FirstName,
-                        FoodPreferences = person.FoodPreferences.Select(fp => new FoodPreferenceViewModel
-                        {
-                            Cuisine = new CuisineViewModel { CuisineId = fp.CuisineId },
-                            Rating = fp.Rating
-                        }).ToList()
-                    };
-
-                    return View(personViewModel);
+                        Cuisine = new CuisineViewModel { CuisineId = cuisine.CuisineId, Name = cuisine.Name },
+                        //If currentRating is null, we will assign -1 to indicate that there is no rating. "??" is known as
+                        //the null-coalescing operator. It allows us to specify a different value if currentRating is null.
+                        Rating = currentRating ?? -1
+                    });
                 }
 
-                return new HttpNotFoundResult();
+                return View(personViewModel);  
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditFoodPreferences(PersonViewModel personViewModel)
+        {
+            using (var lunchContext = new LunchContext())
+            {
+                var person = lunchContext.People.Include("FoodPreferences").SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
+
+                if (person == null)
+                    return new HttpNotFoundResult();
+
+                foreach (var foodPreference in personViewModel.FoodPreferences)
+                {
+                    if (foodPreference.Rating != -1)
+                    {
+                        var existingFoodPreference = person.FoodPreferences.SingleOrDefault(fp => fp.CuisineId == foodPreference.Cuisine.CuisineId);
+                        if (existingFoodPreference != null)
+                        {
+                            existingFoodPreference.Rating = foodPreference.Rating;
+                        }
+                        else
+                        {
+                            person.FoodPreferences.Add(new FoodPreference
+                            {
+                                CuisineId = foodPreference.Cuisine.CuisineId.Value,
+                                Rating = foodPreference.Rating
+                            });
+                        }
+                    }
+                }
+
+                lunchContext.SaveChanges();
+
+                return RedirectToAction("Index");
             }
         }
     }

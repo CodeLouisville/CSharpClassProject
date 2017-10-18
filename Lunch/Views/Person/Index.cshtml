@@ -21,6 +21,7 @@
                 <td>
                     @Html.ActionLink("Detail", "PersonDetail", new { id = Model.People[i].PersonId })
                     | @Html.ActionLink("Edit", "PersonEdit", new { id = Model.People[i].PersonId })
+                    | @Html.ActionLink("Food Preferences", "ManageFoodPreferences", new { id = Model.People[i].PersonId })
                     | <a data-toggle="modal" href="@("#deletePersonModal" + i)">Delete</a>
                     <div class="modal fade" id="@("deletePersonModal" + i)" tabindex="-1" role="dialog">
                         <div class="modal-dialog">

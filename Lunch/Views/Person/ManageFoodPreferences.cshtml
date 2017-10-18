@@ -2,65 +2,92 @@
 
 @{
     ViewBag.Title = Model.FullName + "'s Food Preferences";
-    var FoodPreferences = ViewBag.AllPossibleFoodPreferences as List<Lunch.Models.FoodPreferenceViewModel>;
 }
 
 <h2>@Model.FullName's Food Preferences</h2>
 
-@for (var i = 0; i < FoodPreferences.Count; i++)
+@using (Html.BeginForm("EditFoodPreferences", "Person", "POST"))
 {
-    var selectedValue = Model.FoodPreferences.FirstOrDefault(fp => fp.Cuisine.CuisineId == FoodPreferences[i].Cuisine.CuisineId)?.Rating;
+    @Html.HiddenFor(m => m.PersonId)
 
-    <div class="form-group">
-        <div>
-            <label>@FoodPreferences[i].Cuisine.Name</label>
-        </div>
-        <div>
-            <input type="range" id="prefSlider@(i)" value="@(selectedValue == null ? -1 : selectedValue)" oninput="setPrefDescription(@(i))" min="@(selectedValue == null ? -1 : 0)" max="5" step="1" style="width: 300px;" />
-            <span id="prefDescription@(i)"></span>
-        </div>
+    <div class="col-xs-12">
+        <button type="submit" class="btn btn-primary">Save</button>
+        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+        <hr />
     </div>
+    
+    for (var i = 0; i < Model.FoodPreferences.Count; i++)
+    {
+        @Html.HiddenFor(m => m.FoodPreferences[i].Cuisine.CuisineId)
+
+        var selectedValue = Model.FoodPreferences.FirstOrDefault(fp => fp.Cuisine.CuisineId == Model.FoodPreferences[i].Cuisine.CuisineId)?.Rating;
+
+        <div class="col-sm-4">
+            <div id="prefPanel@(i)" class="panel panel-default">
+                <div class="panel-heading">
+                    @Model.FoodPreferences[i].Cuisine.Name
+                </div>
+                <div class="panel-body">
+                    @Html.TextBoxFor(m => m.FoodPreferences[i].Rating, new { @type = "range", min = Model.FoodPreferences[i].Rating == -1 ? "-1" : "0", max = "5", step = "1" })
+                    <div style="text-align: center;">
+                        <span id="prefDescription@(i)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 
 <script type="text/javascript">
     function setPrefDescription(index) {
         var prefDescriptionLabel = document.getElementById("prefDescription" + index);
-        var prefSliderValue = parseInt(document.getElementById("prefSlider" + index).value);
-        switch (prefSliderValue)
-        {
+        var prefPanel = document.getElementById("prefPanel" + index);
+        var prefSliderValue = parseInt(document.getElementById("FoodPreferences_" + index + "__Rating").value);
+
+        switch (prefSliderValue) {
             case -1:
                 prefDescriptionLabel.innerHTML = "Not set";
-                prefDescriptionLabel.style.color = "gray";
+                prefDescriptionLabel.className = "";
+                prefPanel.className = "panel panel-default";
                 break;
             case 0:
                 prefDescriptionLabel.innerHTML = "Hate it";
-                prefDescriptionLabel.style.color = "red";
+                prefDescriptionLabel.className = "text-danger";
+                prefPanel.className = "panel panel-danger";
                 break;
             case 1:
                 prefDescriptionLabel.innerHTML = "Don't care for it";
-                prefDescriptionLabel.style.color = "orange";
+                prefDescriptionLabel.className = "text-warning";
+                prefPanel.className = "panel panel-warning";
                 break;
             case 2:
                 prefDescriptionLabel.innerHTML = "If I have to";
-                prefDescriptionLabel.style.color = "orange";
+                prefDescriptionLabel.className = "text-warning";
+                prefPanel.className = "panel panel-warning";
                 break;
             case 3:
                 prefDescriptionLabel.innerHTML = "It's OK";
-                prefDescriptionLabel.style.color = "green";
+                prefDescriptionLabel.className = "text-info";
+                prefPanel.className = "panel panel-info";
                 break;
             case 4:
                 prefDescriptionLabel.innerHTML = "Like it";
-                prefDescriptionLabel.style.color = "green";
+                prefDescriptionLabel.className = "text-success";
+                prefPanel.className = "panel panel-success";
                 break;
             case 5:
                 prefDescriptionLabel.innerHTML = "Love it";
-                prefDescriptionLabel.style.color = "green";
+                prefDescriptionLabel.className = "text-success";
+                prefPanel.className = "panel panel-success";
                 break;
         }
     }
 
-    @for (var i = 0; i < FoodPreferences.Count; i++)
+    @for (var i = 0; i < Model.FoodPreferences.Count; i++)
     {
-        <text>setPrefDescription(@(i));</text>
+        <text>
+        document.getElementById("FoodPreferences_@(i)__Rating").oninput = function () { setPrefDescription(@i) };
+        setPrefDescription(@i);
+        </text>
     }
 </script>

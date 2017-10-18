@@ -13,6 +13,6 @@ namespace Lunch.Models
 
         public string Name { get; set; }
 
-        public virtual IEnumerable<FoodPreference> FoodPreferences { get; set; }
+        public virtual ICollection<FoodPreference> FoodPreferences { get; set; }
     }
 }

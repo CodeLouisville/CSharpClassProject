@@ -71,7 +71,7 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 
 					public string Name { get; set; }
 
-					public virtual IEnumerable<FoodPreference> FoodPreferences { get; set; }
+					public virtual ICollection<FoodPreference> FoodPreferences { get; set; }
 				}
 			}
 
@@ -145,31 +145,31 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 				{
 					var person = lunchContext.People.Include("FoodPreferences").SingleOrDefault(p => p.PersonId == id);
                 
-					if (person != null)
+					if (person == null)
+						return new HttpNotFoundResult();
+                
+					var personViewModel = new PersonViewModel {
+						PersonId = person.PersonId,
+						LastName = person.LastName,
+						FirstName = person.FirstName
+					};
+
+					foreach (var cuisine in lunchContext.Cuisines)
 					{
-						var allPossibleFoodPreferences = lunchContext.Cuisines.Select(c => new FoodPreferenceViewModel
+						//If no rating is found, currentRating will be null. "?." is inown as the null-conditional operator. It
+						//keeps us from having to write more code to deal with null values.
+						var currentRating = person.FoodPreferences.SingleOrDefault(fp => fp.CuisineId == cuisine.CuisineId)?.Rating;
+
+						personViewModel.FoodPreferences.Add(new FoodPreferenceViewModel
 						{
-							Cuisine = new CuisineViewModel { CuisineId = c.CuisineId, Name = c.Name }
-						}).ToList();
-
-						ViewBag.AllPossibleFoodPreferences = allPossibleFoodPreferences;
-
-						var personViewModel = new PersonViewModel
-						{
-							PersonId = person.PersonId,
-							LastName = person.LastName,
-							FirstName = person.FirstName,
-							FoodPreferences = person.FoodPreferences.Select(fp => new FoodPreferenceViewModel
-							{
-								Cuisine = new CuisineViewModel { CuisineId = fp.CuisineId },
-								Rating = fp.Rating
-							}).ToList()
-						};
-
-						return View(personViewModel);
+							Cuisine = new CuisineViewModel { CuisineId = cuisine.CuisineId, Name = cuisine.Name },
+							//If currentRating is null, we will assign -1 to indicate that there is no rating. "??" is known as
+							//the null-coalescing operator. It allows us to specify a different value if currentRating is null.
+							Rating = currentRating ?? -1
+						});
 					}
 
-					return new HttpNotFoundResult();
+					return View(personViewModel);  
 				}
 			}
 
@@ -315,3 +315,4 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 
 	    1. Adding a many-to-many relationship between two entities using Entity Framework.
 	    2. Posting a complex model and binding that model to a controller action.
+		3. Null-conditional and null-coalescing operators.

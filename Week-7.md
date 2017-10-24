@@ -6,7 +6,7 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 
 	A. Create a data model for food preferences, and add a migration to update our database with the new table.
 
-		1. Right-click the Models folder, select Add, and click Class. Name the class FoodPreference. Replace all of the code in the FoodPreference.cs file with the code below. Note the use of the Key and Column properties. By using the Key property, we are telling Entity Framework that we want a column to be included in the table's primary key. We have to explicitly tell EF which column(s) make up our primary key any time we don't follow standard naming conventions. In this case, we have two columns that make up our primary key. This is known as a composite key, and is commonly found in tables that define many-to-many relationships. These tables are sometimes referred to as "junction" tables. In this case, we are storing more information in the junction table than just the relationship between the two entities (people and cuisines). We are storing the rating that describes how much a person likes a particular cuisine.
+		1. Right-click the Models folder, select Add, and click Class. Name the class FoodPreference. Replace all of the code in the FoodPreference.cs file with the code below. Note the use of the Key and Column properties. By using the Key property, we are telling Entity Framework that we want a column to be included in the table's primary key. We must explicitly tell EF which column(s) make up our primary key any time we do not follow standard naming conventions. In this case, we have two columns that make up our primary key. This is known as a composite key, and is commonly found in tables that define many-to-many relationships. These tables are sometimes referred to as "junction" tables. In this case, we are storing more information in the junction table than just the relationship between the two entities (people and cuisines). We are storing the rating that describes how much a person likes a particular cuisine.
 
 			using System.ComponentModel.DataAnnotations;
 			using System.ComponentModel.DataAnnotations.Schema;
@@ -31,7 +31,7 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 				}
 			}
 
-		2. Modify the Lunch.Models.Person class as shown below. Two changes were made. First, we added a navigation property named FoodPreferences. We marked it virtual, which allows Entity Framework to give it more features than it could otherwise. Second, we added a constructor method for the Person class, and we instantiated our FoodPreferences property with a new HashSet. We could have instantiated it with any ICollection type, such as List. It is common practice to use HashSet, because it is a more primitive ICollection, and takes up slightly less memory than List. We are instantiating the collection in the Person class's constructor so that we don't have to instantiate it every time we create a new Person. It also helps us avoid unwanted NullReferenceExceptions.
+		2. Modify the Lunch.Models.Person class as shown below. Two changes were made. First, we added a navigation property named FoodPreferences. We marked it virtual, which allows Entity Framework to give it more features than it could otherwise. Second, we added a constructor method for the Person class, and we instantiated our FoodPreferences property with a new HashSet. We could have instantiated it with any ICollection type, such as List. It is common practice to use HashSet, because it is a more primitive ICollection, and takes up slightly less memory than List. We are instantiating the collection in the Person class's constructor so that we do not have to instantiate it every time we create a new Person. It also helps us avoid unwanted NullReferenceExceptions.
 
 			using System.Collections.Generic;
 
@@ -54,7 +54,7 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 				}
 			}
 
-		3. Modify the Lunch.Models.Cuisine class as shown below. These are the same changes that we made to the person class. We have now demonstrated that a person has preferences for many cuisines, while a single cuisine is preferred (or not preferred) by many people.
+		3. Modify the Lunch.Models.Cuisine class as shown below. We made these same changes to the person class. We have now demonstrated that a person has preferences for many cuisines, while a single cuisine is preferred (or not preferred) by many people.
 
 			using System.Collections.Generic;
 
@@ -137,7 +137,7 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 				}
 			}
 
-		3. Modify the PersonController, adding the following controller action. By specifying that we want to "Include" the person's food preferences, we are employing a practice called eager loading. We know that we will be accessing the person's food preferences, so we can tell Entity Framekwork to include these in the query that it generates. This way, we don't have to make multiple round-trips to the database.
+		3. Modify the PersonController, adding the following controller action. By specifying that we want to "Include" the person's food preferences, we are employing a practice called eager loading. We know that we will be accessing the person's food preferences, so we can tell Entity Framework to include these in the query that it generates. This way, we do not have to make multiple round-trips to the database.
 
 			public ActionResult ManageFoodPreferences(int id)
 			{
@@ -154,7 +154,10 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 						FirstName = person.FirstName
 					};
 
-					foreach (var cuisine in lunchContext.Cuisines)
+					//By adding .ToList() to lunchContext.Cuisines, we are forcing a single query to retrieve all cusines from the
+					//database before we begin the loop. If we omit .ToList(), it may still work, but it will result in a seperate
+					//round-trip to the database to get each cuisine.
+					foreach (var cuisine in lunchContext.Cuisines.ToList())
 					{
 						//If no rating is found, currentRating will be null. "?." is inown as the null-conditional operator. It
 						//keeps us from having to write more code to deal with null values.
@@ -233,7 +236,7 @@ VII. Add new entities to our data models, along with views, view models, etc. to
 							prefPanel.className = "panel panel-danger";
 							break;
 						case 1:
-							prefDescriptionLabel.innerHTML = "Don't care for it";
+							prefDescriptionLabel.innerHTML = "do not care for it";
 							prefDescriptionLabel.className = "text-warning";
 							prefPanel.className = "panel panel-warning";
 							break;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lunch.Models
 {
@@ -11,8 +12,10 @@ namespace Lunch.Models
 
         public int PersonId { get; set; }
 
+        [Required]
         public string LastName { get; set; }
 
+        [Required]
         public string FirstName { get; set; }
 
         public virtual ICollection<FoodPreference> FoodPreferences { get; set; }

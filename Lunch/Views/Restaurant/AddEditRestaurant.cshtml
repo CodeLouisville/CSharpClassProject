@@ -14,13 +14,16 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Name)
                 @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label for="Cuisine_CuisineId">Cuisine</label>
-                @Html.DropDownListFor(m => m.Cuisine.CuisineId, ViewBag.Cuisines as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.Cuisine.CuisineId, ViewBag.Cuisines as IEnumerable<SelectListItem>, "Select a Cuisine...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Cuisine.CuisineId, null, new { @class = "text-danger" })
             </div>
             <button type="submit" class="btn btn-primary">@(isEditMode ? "Save" : "Add")</button>
             @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+            @Html.ValidationSummary(null, new { @class = "alert-danger", style = "margin-top: 15px; padding: 10px 0;" });
         }
     </div>
 </div>

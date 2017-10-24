@@ -76,6 +76,20 @@ namespace Lunch.Controllers
         [HttpPost]
         public ActionResult AddRestaurant(RestaurantViewModel restaurantViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                using (var lunchContext = new LunchContext())
+                {
+                    ViewBag.Cuisines = lunchContext.Cuisines.Select(c => new SelectListItem
+                    {
+                        Value = c.CuisineId.ToString(),
+                        Text = c.Name
+                    }).ToList();
+
+                    return View("AddEditRestaurant", restaurantViewModel);
+                }
+            }
+
             using (var lunchContext = new LunchContext())
             {
                 var restaurant = new Restaurant
@@ -125,6 +139,20 @@ namespace Lunch.Controllers
         [HttpPost]
         public ActionResult EditRestaurant(RestaurantViewModel restaurantViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                using (var lunchContext = new LunchContext())
+                {
+                    ViewBag.Cuisines = lunchContext.Cuisines.Select(c => new SelectListItem
+                    {
+                        Value = c.CuisineId.ToString(),
+                        Text = c.Name
+                    }).ToList();
+
+                    return View("AddEditRestaurant", restaurantViewModel);
+                }
+            }
+
             using (var lunchContext = new LunchContext())
             {
                 var restaurant = lunchContext.Restaurants.SingleOrDefault(p => p.RestaurantId == restaurantViewModel.RestaurantId);

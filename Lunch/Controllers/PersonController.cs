@@ -149,7 +149,10 @@ namespace Lunch.Controllers
                     FirstName = person.FirstName
                 };
 
-                foreach (var cuisine in lunchContext.Cuisines)
+                //By adding .ToList() to lunchContext.Cuisines, we are forcing a single query to retrieve all cusines from the
+                //database before we begin the loop. If we omit .ToList(), it may still work, but it will result in a seperate
+                //round-trip to the database to get each cuisine.
+                foreach (var cuisine in lunchContext.Cuisines.ToList())
                 {
                     //If no rating is found, currentRating will be null. "?." is inown as the null-conditional operator. It
                     //keeps us from having to write more code to deal with null values.
